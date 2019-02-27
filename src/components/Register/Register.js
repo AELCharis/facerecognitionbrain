@@ -1,6 +1,46 @@
 import React from 'react';
 
-const Register = ({onRouteChange}) => {
+class Register extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            Email: '',
+            Password: '',
+            Name: ''
+        }
+    }
+    onNameChange = (event) => {
+        this.setState({name: event.target.value})
+    }
+    onEmailChange = (event) => {
+        this.setState({Email: event.target.value})
+    }
+
+    onPasswordChange = (event) => {
+        this.setState({Password: event.target.value})
+    }
+
+    onSubmitSignIn = () => {
+        // console.log(this.state);
+        fetch('http://localhost:3018/register', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({       //gia na stilo ta data sto backend prepi na ta kano stringify
+                email:    this.state.email,
+                password: this.state.password,
+                name:     this.state.name
+            })
+        }).then(response => response.json())
+            .then(user => {
+                if(user){
+                    this.props.loadUser(user)  //tha kanoume load ton user
+                    this.props.onRouteChange('home');  //k meta tha alaksoume to Route gia home
+                }
+            })
+    }
+
+    render () {
     return (
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
             <main className="pa4 black-80">
@@ -10,22 +50,34 @@ const Register = ({onRouteChange}) => {
                         <div className="mt3">
                             <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                                   type="text" name="name" id="name"/>
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    onChange={this.onNameChange}
+                                    />
                         </div>
                         <div className="mt3">
                             <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                                   type="email" name="email-address" id="email-address"/>
+                                    type="email"
+                                    name="email-address"
+                                    id="email-address"
+                                    onChange={this.onEmailChange}
+                                    />
                         </div>
                         <div className="mv3">
                             <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                             <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                                   type="password" name="password" id="password"/>
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    onChange={this.onPasswordChange}
+                                    />
                         </div>
                     </fieldset>
                     <div className="">
                         <input
-                            onClick={() =>  onRouteChange('home')} //tha teksi mono otan gini to click giafto exo mprosta to () =>
+                            onClick={this.onSubmitSignIn()} //tha teksi mono otan gini to click giafto exo mprosta to () =>
                             className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                             type="submit"
                             value="Register"/>
@@ -36,6 +88,7 @@ const Register = ({onRouteChange}) => {
 
 
     )
+    }
 }
 
 

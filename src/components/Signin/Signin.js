@@ -18,8 +18,26 @@ this.state = {
     }
 
     onSubmitSignIn = () => {
-        console.log(this.state);
-       this.props.onRouteChange('home');
+        // console.log(this.state);
+        fetch('http://localhost:3018/signin', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({       //gia na stilo ta data sto backend prepi na ta kano stringify
+                        email:    this.state.signInEmail,
+                        password: this.state.signInPassword
+            })
+        })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if(data === 'success'){
+            // this.props.onRouteChange('home');
+            .then(response => response.json())
+            .then(user => {
+                if(user.id){
+                    this.props.loadUser(user);
+                    this.props.onRouteChange('home');
+        }
+            })
     }
     render() {
         const {onRouteChange} = this.props;
@@ -50,7 +68,7 @@ this.state = {
                         </fieldset>
                         <div className="">
                             <input
-                                onClick={() => this.onSubmitSignIn} //tha teksi mono otan gini to click giafto exo mprosta to () =>
+                                onClick={this.onSubmitSignIn} //tha teksi mono otan gini to click giafto exo mprosta to () =>
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                 type="submit"
                                 value="Sign in"/>
