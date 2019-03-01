@@ -23,7 +23,7 @@ class Register extends React.Component {
 
     onSubmitSignIn = () => {
         // console.log(this.state);
-        fetch('http://localhost:3018/register', {
+        fetch('http://localhost:3000/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({       //gia na stilo ta data sto backend prepi na ta kano stringify
@@ -33,7 +33,7 @@ class Register extends React.Component {
             })
         }).then(response => response.json())
             .then(user => {
-                if(user){
+                if(user.id){
                     this.props.loadUser(user)  //tha kanoume load ton user
                     this.props.onRouteChange('home');  //k meta tha alaksoume to Route gia home
                 }

@@ -19,7 +19,7 @@ this.state = {
 
     onSubmitSignIn = () => {
         // console.log(this.state);
-        fetch('http://localhost:3018/signin', {
+        fetch('http://localhost:3000/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({       //gia na stilo ta data sto backend prepi na ta kano stringify
